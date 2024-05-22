@@ -22,14 +22,28 @@
   });
   
   async function fetchWeatherData(lat, lng) {
-    // Generate random weather data
-    const weatherData = {
-      temperature: (Math.random() * 40 - 10).toFixed(2), // Random temperature between -10 and 30 degrees Celsius
-      humidity: (Math.random() * 100).toFixed(2), // Random humidity percentage
-      condition: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'][Math.floor(Math.random() * 4)] // Random condition
+    const response = await fetch(`http://localhost:5000/weather?lat=${lat}&lng=${lng}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch weather data');
+    }
+    const data = await response.json();
+    return {
+      temperature: data.temperature,
+      windSpeed: data.windSpeed,
+      windDirection: WindDirection[data.windDirection]
     };
-    return weatherData;
   }
+
+  const WindDirection = {
+    0: 'North',
+    1: 'NorthEast',
+    2: 'East',
+    3: 'SouthEast',
+    4: 'South',
+    5: 'SouthWest',
+    6: 'West',
+    7: 'NorthWest'
+  };
   </script>
   
   <style>
