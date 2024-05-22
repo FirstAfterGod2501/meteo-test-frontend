@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  vue-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: http-server dist -p 8080
